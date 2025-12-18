@@ -11,9 +11,32 @@ function createGrid(size) {
     square.style.width = `${squareSize}px`;
     square.style.height = `${squareSize}px`;
 
-    square.addEventListener("mouseenter", () => {
-      square.style.backgroundColor = "black";
-    });
+   square.addEventListener("mouseenter", () => {
+  if (!square.dataset.darkness) {
+    // color RGB aleatorio inicial
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+
+    square.dataset.r = r;
+    square.dataset.g = g;
+    square.dataset.b = b;
+    square.dataset.darkness = 0;
+
+    square.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+  } else {
+    // oscurecer 10%
+    let darkness = Number(square.dataset.darkness) + 1;
+    square.dataset.darkness = darkness;
+
+    let r = Math.floor(square.dataset.r * Math.pow(0.9, darkness));
+    let g = Math.floor(square.dataset.g * Math.pow(0.9, darkness));
+    let b = Math.floor(square.dataset.b * Math.pow(0.9, darkness));
+
+    square.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+  }
+});
+
 
     container.appendChild(square);
   }
